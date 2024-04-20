@@ -9,6 +9,7 @@
 #
 
 import os
+from book import Book
 
 # Print Menu
 def print_menu():
@@ -19,13 +20,23 @@ def print_menu():
     print() # Empty line for readability
     print('Reader\'s Guild Library - Main Menu')
     print('='*34)
-    print(f'1. Search for books \n2. Borrow \n3. Return a book \n0. Exit the system')
+    print(f'1. Search for books \n2. Borrow a book \n3. Return a book \n0. Exit the system')
     userInput = input('Enter you selection: ')
     return userInput
     
-    
+# Print Librarian Menu
+def print_libMenu():
+    '''
+    Librarian Menu Screen
+    User Input to select option
+    '''
+    print() # Empty line for readability
+    print('Reader\'s Guild Library - Librarian Menu')
+    print('='*39)
+    print(f'1. Search for books \n2. Borrow a book \n3. Return a book \n4. Add a book \n5. Remove a book \n6. Print catalog \n0. Exit the system')
+    userInput = input('Enter you selection: ')
+    return userInput
 
-# Load Books
 def load_books(fileName):
     '''
     Takes and reads file name
@@ -37,7 +48,6 @@ def load_books(fileName):
         for line in file:
             isbn, title, author, genre, availability = line.strip().split(',')
             bookList.append([isbn, title, author, genre, availability])
-            print('Book catalog has been loaded.')
     return bookList
 
 # Main
@@ -45,64 +55,57 @@ def main():
     '''
     Main
     '''
-    print('Starting the system ...')
-    fileInput = input(f'Enter book catalog filename: ')
-    if os.path.exists(fileInput):
-        books = []
-        books = load_books(fileInput)
-    print('Book catalog has been loaded.')
+print('Starting the system ...')
+while True:
+    file_input = input('Enter book catalog filename: ')
+    if os.path.exists(file_input):
+        books = load_books(file_input)
+        print('Book catalog has been loaded.')
+        break  # Exit the loop if the file exists and is loaded successfully
+    else:
+        print('Error: Book catalog file does not exist. Please re-enter.')
 
-    while True:
-        print('\nReader\'s Guild Library - Main Menu')
-        print('='*34)
-        print('1. Search for books')
-        print('2. Borrow a book')
-        print('3. Return a book')
-        print('0. Exit the system')
-        choice = input('Enter your selection: ')
-
-        if choice == '1':
+while True:
+    choice = print_menu()
+    match choice:
+        case '1':
             # Search for books
             print('Search for books -- Goes here')
-        elif choice == '2':
+        case '2': 
             # Borrow a book
             print('Borrow a book -- Goes here')
-        elif choice == '3':
+        case '3':
             # Return a book
             print('Return a book -- Goes here')
-        elif choice == '2130':
-            # Admin Menu
+        case '0':
+            # Exit the system
+            print('Exit the system -- Goes here')
+        case '2130':
             while True:
-                print('\nReader\'s Guild Library - Admin Menu')
-                print('='*34)
-                print('1. Search for books')
-                print('2. Borrow a book')
-                print('3. Return a book')
-                print('4. Add a book')
-                print('5. Remove a book')
-                print('6. Print catalog')
-                print('0. Exit to main menu')
-                admin_choice = input('Enter your selection: ')
-                
-                if admin_choice == '1':
-                    # Add a book
-                    print('Add a book -- Goes here')
-                elif admin_choice == '2':
-                    # Remove a book
-                    print('Remove a book -- Goes here')
-                elif admin_choice == '3':
-                    # Print catalog
-                    print('Print catalog -- Goes here')
-                elif admin_choice == '0':
-                    # Exit admin menu
-                    break
-                else:
-                    print('Invalid choice. Please try again.')
-        elif choice == '0':
-            print('Exiting the system...')
-            break
-        else:
-            print('Invalid choice. Please try again.')
+                choice = print_libMenu()
+                match choice:
+                    case '1':
+                        # Search for books
+                        print('Search for books -- Goes here(same as other)')
+                    case '2': 
+                        # Borrow a book
+                        print('Borrow a book -- Goes here(same as other)')
+                    case '3':
+                        # Return a book
+                        print('Return a book -- Goes here(same as other)')
+                    case '4':
+                        # Add a book
+                        print('Add a book -- goes here')
+                    case '5':
+                        # Remove a book
+                        print('Remove a book -- goes here')
+                    case '6':
+                        # Print Catalog
+                        print('Print catalog -- goes here')
+                    case '0':
+                        # Exit the system
+                        print('Exit the system -- Goes here(same as other)')
+        
 
 
 if __name__ == "__main__":
