@@ -36,6 +36,26 @@ def print_libMenu():
     userInput = input('Enter you selection: ')
     return userInput
 
+# Exit System
+def exitSystem():
+    '''
+    Saves changes to the catalog
+    Displays exit message
+    Exits Main loop
+    '''
+
+# Format Books
+def format_books(books):
+    '''
+    Gets list of books
+    Formats book data
+    '''
+    fLines = ''
+    for each in books:
+        line = f'{each[0]},{each[1]},{each[2]},{each[3]},{each[4]}\n'
+        fLines += line
+    return fLines
+
 # Load Books
 def load_books(fileName):
     '''
@@ -101,7 +121,7 @@ def main():
                             print('Print catalog -- goes here')
                         case '0':
                             # Exit the system
-                            print('Exit the system -- Goes here(same as other)')
+                            format = format_books(books)
             
 
 
