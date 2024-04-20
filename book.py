@@ -2,8 +2,7 @@
 #
 #
 #
-GENRE_LIST = ['Romance', 'Mystery', 'Science Fiction', 'Thriller', 'Young Adult', 'Children\'s Fiction',
-                        'Self-help', 'Fantasy', 'Historical Fiction', 'Poetry']
+
 
 class Book:
     # Initializer
@@ -44,6 +43,8 @@ class Book:
     
         # Get Genre Name
     def get_genre_name(self):
+        GENRE_LIST = ['Romance', 'Mystery', 'Science Fiction', 'Thriller', 'Young Adult', 'Children\'s Fiction',
+                        'Self-help', 'Fantasy', 'Historical Fiction', 'Poetry']
         get = int(self.__g_code)
         genre = GENRE_LIST[get]
         return genre
