@@ -52,7 +52,7 @@ def load_books(fileName):
 
 def print_books(books):
     '''
-    Prints the catalog of books
+    --Print Book Catalog--
     '''
     print("Catalog of Books:")
     print("=" * 50)
@@ -102,6 +102,32 @@ def add_book(fileName):
         file.write(new_book_entry)
     
     print(f'\'{title}\' with ISBN {isbn} successfully added.')
+
+def remove_book(fileName):
+    print('--Remove a Book--')
+    isbn_to_remove = input('Enter the 13-digit ISBN (format 999-9999999999): ')
+
+    # Check if the book exists in the catalog
+    found = False
+    updated_books = []
+    with open(fileName, 'r') as file:
+        for line in file:
+            isbn, title, author, genre, availability = line.strip().split(',')
+            if isbn != isbn_to_remove:
+                updated_books.append([isbn, title, author, genre, availability])
+            else:
+                found = True
+    
+    if not found:
+        print(f'No book found with that ISBN.')
+        return
+
+    # Write the updated catalog back to the file
+    with open(fileName, 'w') as file:
+        for book in updated_books:
+            file.write(','.join(book) + '\n')
+
+    print(f'\'{book}\' with ISBN {isbn_to_remove} successfully removed.')
 
 def main():
     '''
