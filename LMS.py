@@ -61,6 +61,48 @@ def print_books(books):
         isbn, title, author, genre, availability = book
         print("{:<15} {:<30} {:<20} {:<15} {:<10}".format(isbn, title, author, genre, availability))
 
+def add_book(fileName):
+    print('--Add a Book--')
+    isbn = input('Enter the 13-digit ISBN (format 999-9999999999): ')
+    title = input('Enter title: ').capitalize()
+    author = input('Enter author name: ').capitalize()
+    
+    # Define valid genres
+    genre_list = ['Romance', 'Mystery', 'Science Fiction', 'Thriller', 
+                    'Young Adult', 'Children\'s Fiction', 'Self-help', 
+                    'Fantasy', 'Historical Fiction', 'Poetry']
+    
+    while True:
+        genre = input('Enter genre (x to show genre list): ').capitalize()
+        if genre == 'X':
+            print('Available genres:')
+            print('=' * 30)
+            for genre in genre_list:
+                print(genre)
+            print('=' * 30)
+        elif genre in genre_list:
+            break  # Exit the loop if the genre is valid
+        else:
+            print('Invalid genre. Choices are:')
+            print('=' * 30)
+            for genre in genre_list:
+                print(genre)
+            print('=' * 30)
+    
+    availability = input('Enter availability (True or False): ').capitalize()
+    while availability not in ['True', 'False']:
+        print('Invalid option.')
+        availability = input('Enter availability (True or False): ').capitalize()
+
+    # Create a string representing the new book entry
+    new_book_entry = f"{isbn},{title},{author},{genre},{availability}\n"
+    
+    # Append the new book entry to the file
+    with open(fileName, 'a') as file:
+        file.write(new_book_entry)
+    
+    print(f'\'{title}\' with ISBN {isbn} successfully added.')
+
 def main():
     '''
     Main
