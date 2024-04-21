@@ -36,6 +36,29 @@ def print_libMenu():
     userInput = input('Enter you selection: ')
     return userInput
 
+# Exit System
+def exitSystem(fileName, fLines):
+    '''
+    Saves changes to the catalog
+    Displays exit message
+    Exits Main loop
+    '''
+    with open(fileName,'w') as file:
+        file.write(fLines)
+    print(f'-- Exit the system -- \nBook catalog has been saved. \nGood Bye!')
+
+# Format Books
+def format_books(books):
+    '''
+    Gets list of books
+    Formats book data
+    '''
+    fLines = ''
+    for each in books:
+        line = f'{each[0]},{each[1]},{each[2]},{each[3]},{each[4]}\n'
+        fLines += line
+    return fLines
+
 # Load Books
 def load_books(fileName):
     '''
@@ -50,20 +73,15 @@ def load_books(fileName):
             bookList.append([isbn, title, author, genre, availability])
     return bookList
 
-# Main
-def main():
+def menu():
     '''
-    Main
+    Comment###################
     '''
-    print('Starting the system ...')
-    fileInput = input(f'Enter book catalog filename: ')
-    if os.path.exists(fileInput):
-        books = []
-        books = load_books(fileInput)
     print('Book catalog has been loaded.')
-
-    while True:
+    while menu == True:
         choice = print_menu()
+
+            # Main Menu
         match choice:
             case '1':
                 # Search for books
@@ -76,7 +94,11 @@ def main():
                 print('Return a book -- Goes here')
             case '0':
                 # Exit the system
-                print('Exit the system -- Goes here')
+                #format = format_books(books)
+                #exitSystem(fileInput, format)
+                break
+
+            # Librarian Menu
             case '2130':
                 while True:
                     choice = print_libMenu()
@@ -101,9 +123,38 @@ def main():
                             print('Print catalog -- goes here')
                         case '0':
                             # Exit the system
-                            print('Exit the system -- Goes here(same as other)')
-            
+                            #format = format_books(books)
+                            #exitSystem(fileInput, format)
+                            menu = False
+                            break
+
+def reEnterFile():
+    '''
+    Comment###################
+    '''
+    while True:
+        fileInput = input(f'File not found. Re-enter book catalog filename: ')
+        if os.path.exists(fileInput):
+            books = []
+            books = load_books(fileInput)
+            menu()
+            return fileInput
+    
 
 
+# Main
+def main():
+    '''
+    Main
+    '''
+    menu = True
+    print('Starting the system ...')
+    fileInput = input(f'Enter book catalog filename: ')
+    if os.path.exists(fileInput):
+        books = []
+        books = load_books(fileInput)
+        menu()
+    else:reEnterFile()
+                    
 if __name__ == "__main__":
     main()
