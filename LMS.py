@@ -50,7 +50,17 @@ def load_books(fileName):
             bookList.append([isbn, title, author, genre, availability])
     return bookList
 
-# Main
+def print_books(books):
+    '''
+    Prints the catalog of books
+    '''
+    print("Catalog of Books:")
+    print("=" * 50)
+    print("{:<15} {:<30} {:<20} {:<15} {:<10}".format("ISBN", "Title", "Author", "Genre", "Availability"))
+    for book in books:
+        isbn, title, author, genre, availability = book
+        print("{:<15} {:<30} {:<20} {:<15} {:<10}".format(isbn, title, author, genre, availability))
+
 def main():
     '''
     Main
@@ -94,14 +104,13 @@ while True:
                         # Return a book
                         print('Return a book -- Goes here(same as other)')
                     case '4':
-                        # Add a book
-                        print('Add a book -- goes here')
+                        add_book(file_input)
                     case '5':
                         # Remove a book
-                        print('Remove a book -- goes here')
+                        remove_book(file_input)
                     case '6':
                         # Print Catalog
-                        print('Print catalog -- goes here')
+                        print_books(books)  # Call the print_books function to display the catalog
                     case '0':
                         # Exit the system
                         print('Exit the system -- Goes here(same as other)')
