@@ -133,55 +133,55 @@ def main():
     '''
     Main
     '''
-print('Starting the system ...')
-while True:
-    file_input = input('Enter book catalog filename: ')
-    if os.path.exists(file_input):
-        books = load_books(file_input)
-        print('Book catalog has been loaded.')
-        break  # Exit the loop if the file exists and is loaded successfully
-    else:
-        print('Error: Book catalog file does not exist. Please re-enter.')
+    print('Starting the system ...')
+    while True:
+        file_input = input('Enter book catalog filename: ')
+        if os.path.exists(file_input):
+            books = load_books(file_input)
+            print('Book catalog has been loaded.')
+            break  # Exit the loop if the file exists and is loaded successfully
+        else:
+            print('Error: Book catalog file does not exist. Please re-enter.')
 
-while True:
-    choice = print_menu()
-    match choice:
-        case '1':
-            # Search for books
-            print('Search for books -- Goes here')
-        case '2': 
-            # Borrow a book
-            print('Borrow a book -- Goes here')
-        case '3':
-            # Return a book
-            print('Return a book -- Goes here')
-        case '0':
-            # Exit the system
-            print('Exit the system -- Goes here')
-        case '2130':
-            while True:
-                choice = print_libMenu()
-                match choice:
-                    case '1':
-                        # Search for books
-                        print('Search for books -- Goes here(same as other)')
-                    case '2': 
-                        # Borrow a book
-                        print('Borrow a book -- Goes here(same as other)')
-                    case '3':
-                        # Return a book
-                        print('Return a book -- Goes here(same as other)')
-                    case '4':
-                        add_book(file_input)
-                    case '5':
-                        # Remove a book
-                        remove_book(file_input)
-                    case '6':
-                        # Print Catalog
-                        print_books(books)  # Call the print_books function to display the catalog
-                    case '0':
-                        # Exit the system
-                        print('Exit the system -- Goes here(same as other)')
+        while True:
+            choice = print_menu()
+            match choice:
+                case '1':
+                    # Search for books
+                    print('Search for books -- Goes here')
+                case '2': 
+                    # Borrow a book
+                    print('Borrow a book -- Goes here')
+                case '3':
+                    # Return a book
+                    print('Return a book -- Goes here')
+                case '0':
+                    # Exit the system
+                    print('Exit the system -- Goes here')
+                case '2130':
+                    while True:
+                        choice = print_libMenu()
+                        match choice:
+                            case '1':
+                                # Search for books
+                                print('Search for books -- Goes here(same as other)')
+                            case '2': 
+                                # Borrow a book
+                                print('Borrow a book -- Goes here(same as other)')
+                            case '3':
+                                # Return a book
+                                print('Return a book -- Goes here(same as other)')
+                            case '4':
+                                add_book(file_input)
+                            case '5':
+                                # Remove a book
+                                remove_book(file_input)
+                            case '6':
+                                # Print Catalog
+                                print_books(books)  # Call the print_books function to display the catalog
+                            case '0':
+                                # Exit the system
+                                print('Exit the system -- Goes here(same as other)')
         
 
 
