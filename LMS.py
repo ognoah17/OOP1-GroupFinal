@@ -73,12 +73,24 @@ def load_books(fileName):
             bookList.append([isbn, title, author, genre, availability])
     return bookList
 
-def menu():
+def print_books(books):
+    '''
+    --Print Book Catalog--
+    '''
+    print("Catalog of Books:")
+    print("=" * 50)
+    print("{:<15} {:<30} {:<20} {:<15} {:<10}".format("ISBN", "Title", "Author", "Genre", "Availability"))
+    for book in books:
+        isbn, title, author, genre, availability = book
+        print("{:<15} {:<30} {:<20} {:<15} {:<10}".format(isbn, title, author, genre, availability))
+
+def menu(books):
     '''
     Menu options
     '''
     print('Book catalog has been loaded.')
-    while menu == True:
+    global menu_loop
+    while menu_loop == True:
         choice = print_menu()
 
             # Main Menu
@@ -120,12 +132,12 @@ def menu():
                             print('Remove a book -- goes here')
                         case '6':
                             # Print Catalog
-                            print('Print catalog -- goes here')
+                            print_books(books)
                         case '0':
                             # Exit the system
                             #format = format_books(books)
                             #exit_system(fileInput, format)
-                            menu = False
+                            menu_loop = False
                             break
 
 def reEnterFile():
@@ -137,7 +149,7 @@ def reEnterFile():
         if os.path.exists(fileInput):
             books = []
             books = load_books(fileInput)
-            menu()
+            menu(books)
             return fileInput
     
 
@@ -147,14 +159,15 @@ def main():
     '''
     Main
     '''
-    menu = True
     print('Starting the system ...')
     fileInput = input(f'Enter book catalog filename: ')
     if os.path.exists(fileInput):
         books = []
         books = load_books(fileInput)
-        menu()
+        menu(books)
+        return fileInput
     else:reEnterFile()
                     
 if __name__ == "__main__":
+    menu_loop = True
     main()
