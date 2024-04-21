@@ -37,7 +37,7 @@ def print_libMenu():
     return userInput
 
 # Exit System
-def exitSystem(fileName, fLines):
+def exit_system(fileName, fLines):
     '''
     Saves changes to the catalog
     Displays exit message
@@ -75,7 +75,7 @@ def load_books(fileName):
 
 def menu():
     '''
-    Comment###################
+    Menu options
     '''
     print('Book catalog has been loaded.')
     while menu == True:
@@ -95,7 +95,7 @@ def menu():
             case '0':
                 # Exit the system
                 #format = format_books(books)
-                #exitSystem(fileInput, format)
+                #exit_system(fileInput, format)
                 break
 
             # Librarian Menu
@@ -124,13 +124,13 @@ def menu():
                         case '0':
                             # Exit the system
                             #format = format_books(books)
-                            #exitSystem(fileInput, format)
+                            #exit_system(fileInput, format)
                             menu = False
                             break
 
 def reEnterFile():
     '''
-    Comment###################
+    Let's the user re-input the file name if they type an incorrect name
     '''
     while True:
         fileInput = input(f'File not found. Re-enter book catalog filename: ')
