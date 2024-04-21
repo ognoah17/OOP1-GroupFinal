@@ -58,6 +58,7 @@ def print_books(books):
     print("=" * 50)
     print("{:<15} {:<30} {:<20} {:<15} {:<10}".format("ISBN", "Title", "Author", "Genre", "Availability"))
     for book in books:
+<<<<<<< Updated upstream
         isbn, title, author, genre, availability = book
         print("{:<15} {:<30} {:<20} {:<15} {:<10}".format(isbn, title, author, genre, availability))
 
@@ -72,6 +73,123 @@ def add_book(fileName):
                     'Young Adult', 'Children\'s Fiction', 'Self-help', 
                     'Fantasy', 'Historical Fiction', 'Poetry']
     
+=======
+        print(book)
+
+def add_book(fileName, book_list):
+    print('--Add a Book--')
+    isbn = input('Enter the 13-digit ISBN (format 999-9999999999): ')
+    title = input('Enter title: ')
+    author = input('Enter author name: ')
+    
+    # Display available genres with codes
+    print("Enter genres:")
+    genre_list = [
+        'Romance', 'Mystery', 'Science Fiction', 'Thriller', 
+        'Young Adult', "Children's Fiction", 'Self-help', 
+        'Fantasy', 'Historical Fiction', 'Poetry'
+    ]
+    for i, genre in enumerate(genre_list):
+        print(f"{i}: {genre}")
+    
+    # Prompt the user to select a genre code
+    genre_code = int(input('Enter genre code (0-9): '))
+    while genre_code not in range(10):
+        print('Invalid genre. Choice are as above:')
+        genre_code = int(input('Enter genre code (0-9): '))
+    
+    genre = genre_list[genre_code]
+    
+    availability =  'True'
+    
+    # Create a Book object
+    new_book = Book(isbn, title, author, genre_code, availability)  # Use genre_code instead of genre
+    
+    # Append the new book to the book list
+    book_list.append(new_book)
+    
+    # Append the new book entry to the file
+    new_book_entry = f"{isbn},{title},{author},{genre_code},{availability}\n"
+    with open(fileName, 'a') as file:
+        file.write(new_book_entry)
+    
+    print(f'\'{title}\' with ISBN {isbn} successfully added.')
+
+
+##### 
+'''
+    << - Rubal's Code - >>
+'''
+#####
+
+
+
+# Menu
+def menu(books, file_input):
+    '''
+    Menu options
+    '''
+    print('Book catalog has been loaded.')
+    global menu_loop
+    while menu_loop == True:
+        choice = print_menu()
+
+            # Main Menu
+        match choice:
+            case '1':
+                # Search for books
+                print('Search for books -- Goes here')
+            case '2': 
+                # Borrow a book
+                print('Borrow a book -- Goes here')
+            case '3':
+                # Return a book
+                print('Return a book -- Goes here')
+            case '0':
+                # Exit the system
+                #format = format_books(books)
+                #exit_system(file_input, format)
+                break
+
+            # Librarian Menu
+            case '2130':
+                while True:
+                    choice = print_libMenu()
+                    match choice:
+                        case '1':
+                            # Search for books
+                            print('Search for books -- Goes here(same as other)')
+                        case '2': 
+                            # Borrow a book
+                            print('Borrow a book -- Goes here(same as other)')
+                        case '3':
+                            # Return a book
+                            print('Return a book -- Goes here(same as other)')
+                        case '4':
+                            # Add a book
+                            add_book(file_input, books)
+                        case '5':
+                            # Remove a book
+                            print('Remove a book -- goes here')
+                        case '6':
+                            # Print Catalog
+                            load_books(file_input)
+                            print_books(books)
+                        case '0':
+                            # Exit the system
+                            #format = format_books(books)
+                            #exit_system(file_input, format)
+                            menu_loop = False
+                            break
+
+
+
+# re Enter File
+def reEnterFile():
+    '''
+    Let's the user re-input the file name if they type an incorrect name
+    '''
+>>>>>>> Stashed changes
     while True:
         genre = input('Enter genre (x to show genre list): ').capitalize()
         if genre == 'X':
