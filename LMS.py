@@ -9,8 +9,10 @@
 #
 
 import os
+from book import Book
 
-# Print Menu
+
+# Print Menu        ------------------------------------------> GOOD
 def print_menu():
     '''
     Main Menu Screen
@@ -23,7 +25,7 @@ def print_menu():
     userInput = input('Enter you selection: ')
     return userInput
     
-# Print Librarian Menu
+# Print Librarian Menu  -------------------------------------> GOOD
 def print_libMenu():
     '''
     Librarian Menu Screen
@@ -36,7 +38,7 @@ def print_libMenu():
     userInput = input('Enter you selection: ')
     return userInput
 
-# Exit System
+# Exit System           ------------------------------------> GOOD
 def exit_system(fileName, fLines):
     '''
     Saves changes to the catalog
@@ -47,7 +49,7 @@ def exit_system(fileName, fLines):
         file.write(fLines)
     print(f'-- Exit the system -- \nBook catalog has been saved. \nGood Bye!')
 
-# Format Books
+# Format Books ----------------------- << Testing Required >>
 def format_books(books):
     '''
     Gets list of books
@@ -59,20 +61,34 @@ def format_books(books):
         fLines += line
     return fLines
 
-# Load Books
+# Load Books <<<<<<<<<<<<<<<< GOOD (- availability?)
 def load_books(fileName):
     '''
     Takes and reads file name
     Converts lines to list
     Returns List
     '''
-    bookList = []
+    books = []
+    eachBook = []
+    format = []
     with open(fileName, 'r') as file:
         for line in file:
             isbn, title, author, genre, availability = line.strip().split(',')
-            bookList.append([isbn, title, author, genre, availability])
-    return bookList
+            format.append([isbn, title, author, genre, availability])
+        for each in format:
+            eachBook.append(Book(each[0],each[1],each[2],each[3],each[4]))
+        for each in eachBook:
+            books.append(each)
+    return books
 
+# Display Book      -------------------------------------> GOOD
+def print_single(books):
+    if books == None:
+        pass
+    else:
+        return print(books)
+
+# Display Catalog   -------------------------------------> GOOD
 def print_books(books):
     '''
     --Print Book Catalog--
@@ -81,10 +97,24 @@ def print_books(books):
     print("=" * 50)
     print("{:<15} {:<30} {:<20} {:<15} {:<10}".format("ISBN", "Title", "Author", "Genre", "Availability"))
     for book in books:
-        isbn, title, author, genre, availability = book
-        print("{:<15} {:<30} {:<20} {:<15} {:<10}".format(isbn, title, author, genre, availability))
+        print_single(book)
 
-def menu(books):
+##### 
+'''
+    << - Noah's Code - >>
+'''
+#####
+
+##### 
+'''
+    << - Rubal's Code - >>
+'''
+#####
+
+
+
+# Menu
+def menu(books, file_input):
     '''
     Menu options
     '''
@@ -107,7 +137,7 @@ def menu(books):
             case '0':
                 # Exit the system
                 #format = format_books(books)
-                #exit_system(fileInput, format)
+                #exit_system(file_input, format)
                 break
 
             # Librarian Menu
@@ -132,27 +162,28 @@ def menu(books):
                             print('Remove a book -- goes here')
                         case '6':
                             # Print Catalog
+                            load_books(file_input)
                             print_books(books)
                         case '0':
                             # Exit the system
                             #format = format_books(books)
-                            #exit_system(fileInput, format)
+                            #exit_system(file_input, format)
                             menu_loop = False
                             break
 
+
+
+# re Enter File
 def reEnterFile():
     '''
     Let's the user re-input the file name if they type an incorrect name
     '''
     while True:
-        fileInput = input(f'File not found. Re-enter book catalog filename: ')
-        if os.path.exists(fileInput):
+        file_input = input(f'File not found. Re-enter book catalog filename: ')
+        if os.path.exists(file_input):
             books = []
-            books = load_books(fileInput)
-            menu(books)
-            return fileInput
-    
-
+            books = load_books(file_input)
+            menu(books, file_input)
 
 # Main
 def main():
@@ -160,12 +191,11 @@ def main():
     Main
     '''
     print('Starting the system ...')
-    fileInput = input(f'Enter book catalog filename: ')
-    if os.path.exists(fileInput):
+    file_input = input(f'Enter book catalog filename: ')
+    if os.path.exists(file_input):
         books = []
-        books = load_books(fileInput)
-        menu(books)
-        return fileInput
+        books = load_books(file_input)
+        menu(books, file_input)
     else:reEnterFile()
                     
 if __name__ == "__main__":
