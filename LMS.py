@@ -108,7 +108,6 @@ def add_book(fileName, book_list):
     author = input('Enter author name: ')
     
     # Display available genres
-    print("Enter genres:")
     genre_list = [
         'Romance', 'Mystery', 'Science Fiction', 'Thriller', 
         'Young Adult', "Children's Fiction", 'Self-help', 
