@@ -139,6 +139,46 @@ def add_book(fileName, book_list):
     
     print(f'\'{title}\' with ISBN {isbn} successfully added.')
 
+def load_books_from_file(file_name):
+    '''
+    Load book information from a file and return a list of Book objects
+    '''
+    book_list = []
+    with open(file_name, 'r') as file:
+        for line in file:
+            parts = line.strip().split(',')
+            book = Book(parts[0], parts[1], parts[2], parts[3], parts[4])
+            book_list.append(book)
+    return book_list
+
+def remove_book(fileName, book_list):
+    print('--Remove a Book--')
+    isbn = input('Enter the 13-digit ISBN of the book to remove (format 999-9999999999): ')
+    
+    # Check if the book with the entered ISBN exists in the list
+    found = False
+    for book in book_list:
+        if book['isbn'] == isbn:
+            title = book['title']
+            book_list.remove(book)
+            found = True
+            break
+    
+    if found:
+        # Rewrite the entire file without the removed book entry
+        with open(fileName, 'w') as file:
+            for existing_book in book_list:
+                book_entry = f"{existing_book['isbn']},{existing_book['title']},{existing_book['author']},{existing_book['genre']},{existing_book['availability']}\n"
+                file.write(book_entry)
+
+        print(f'\'{title}\' with ISBN {isbn} successfully removed.')
+    else:
+        print("No book found with that ISBN.")
+
+
+
+
+
 #To search about books -----------------------------------> Functional but output needs formatting
 def search_books(search_string, books):
     '''
@@ -302,8 +342,7 @@ def menu(books, file_input):
                         case '4':
                             add_book(file_input, books)
                         case '5':
-                            # Remove a book
-                            print('Remove a book -- goes here')
+                            remove_book(file_input, books)
                         case '6':
                             # Print Catalog
                             load_books(file_input)
