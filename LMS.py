@@ -105,131 +105,12 @@ def print_books(books):
 '''
 #####
 
-## - Should be Noah's
-    # Add Books
-def add_book(books):
-    isbn = input('Enter the 13-digit ISBN (format 999-9999999999): ')
-    title = input('Enter title: ')
-    author = input('Enter author name: ')
-    valid = False
-
-    while valid == False:
-        genre = input('Enter genre: ')
-        match genre:
-            case 'Romance':
-                g_code = 0
-                valid = True
-            case 'Mystery':
-                g_code = 1
-                valid = True
-            case 'Science Fiction':
-                g_code = 2
-                valid = True
-            case 'Thriller':
-                g_code = 3
-                valid = True
-            case 'Young Adult':
-                g_code = 4
-                valid = True
-            case 'Children\'s Fiction':
-                g_code = 5
-                valid = True
-            case 'Self-help':
-                g_code = 6
-                valid = True
-            case 'Fantasy':
-                g_code = 7
-                valid = True
-            case 'Historical Fiction':
-                g_code = 8
-                valid = True
-            case 'Poetry':
-                g_code = '9'
-                valid = True
-            case _:
-                print(f'Invalid genre. Choices are: Romance, Mystery, Science Fiction, Thriller, Young Adult, Children\'s Fiction, Self-help, Fantasy, Historical Fiction, Poetry')
-    else:
-        books.append(Book(f'{isbn[0]}, {title[1]}, {author[2]}, {g_code[3]}, {True[4]}'))
-
-
-
 ##### 
 '''
     << - Rubal's Code - >>
 '''
 #####
 
-## - Should be Rubal's
-    # Search Books
-def search_books(books, search):
-    '''
-    Search for book
-    Looks for match in:
-    isbn, title, author, genre
-    '''
-    search_match = []
-    index = 0
-    while index < len(books):
-        current_book = books[index]
-        if search.lower() in current_book.get_title().lower():
-            search_match.append(current_book)
-        if search.lower() in (current_book.get_author().lower()):
-            search_match.append(current_book)
-        if search.lower() in (current_book.get_isbn().lower()):
-            search_match.append(current_book)
-        #if search.lower() in (current_book.get_genre().lower()):
-            #search_match.append(current_book)
-        index += 1
-    print_books(search_match)
-
-# Borrow Book
-def borrow_book(books):
-    '''
-    Takes book list
-    Search for isbn and finds match
-    If available, sets as borrowed
-    '''
-    search = input(f'-- Borrow a book -- \nEnter the 13-digit ISBN (format 999-9999999999): ')
-    index = 0
-    while index < len(books):
-        current_book = books[index]
-        if search == current_book.get_isbn():
-            if current_book.get_availability() == True:
-                current_book.borrow_it()
-                print(f"'{current_book.get_title()}' with ISBN {current_book.get_isbn()} successfully borrowed.")
-                break
-            else:
-                print(f"'{current_book.get_title()}' with ISBN {current_book.get_isbn()} is not currently available.")
-                break
-        else:
-            index += 1
-    if index == len(books):
-        print('No book found with that ISBN')
-
-# Return Book
-def return_book(books):
-    '''
-    Takes book list
-    Search for isbn and finds match
-    If borrowed, sets as available
-    '''
-    search = input(f'-- Return a book -- \nEnter the 13-digit ISBN (format 999-9999999999): ')
-    index = 0
-    while index < len(books):
-        current_book = books[index]
-        if search == current_book.get_isbn():
-            if current_book.get_availability() == False:
-                current_book.return_it()
-                print(f"'{current_book.get_title()}' with ISBN {current_book.get_isbn()} successfully returned.")
-                break
-            else:
-                print(f"'{current_book.get_title()}' with ISBN {current_book.get_isbn()} is not currently borrowed.")
-                break
-        else:
-            index += 1
-    if index == len(books):
-        print('No book found with that ISBN')
-##### Borrow and Return do NOT use find_by_isbn function (function not made)
 
 
 # Menu
@@ -246,15 +127,13 @@ def menu(books, file_input):
         match choice:
             case '1':
                 # Search for books
-                print('-- Search for books --')
-                search = input('Enter search value: ')
-                search_books(books, search)
+                print('Search for books -- Goes here')
             case '2': 
                 # Borrow a book
-                borrow_book(books)
+                print('Borrow a book -- Goes here')
             case '3':
                 # Return a book
-                return_book(books)
+                print('Return a book -- Goes here')
             case '0':
                 # Exit the system
                 #format = format_books(books)
@@ -268,19 +147,16 @@ def menu(books, file_input):
                     match choice:
                         case '1':
                             # Search for books
-                            print('-- Search for books --')
-                            search = input('Enter search value: ')
-                            search_books(books, search)
+                            print('Search for books -- Goes here(same as other)')
                         case '2': 
                             # Borrow a book
-                            borrow_book(books)
+                            print('Borrow a book -- Goes here(same as other)')
                         case '3':
                             # Return a book
-                            return_book(books)
+                            print('Return a book -- Goes here(same as other)')
                         case '4':
                             # Add a book
-                            print('-- Add a book --')
-                            add_book(books)
+                            print('Add a book -- goes here')
                         case '5':
                             # Remove a book
                             print('Remove a book -- goes here')
@@ -294,8 +170,6 @@ def menu(books, file_input):
                             #exit_system(file_input, format)
                             menu_loop = False
                             break
-                        case '':
-                            print('Invalid option')
 
 
 
