@@ -60,7 +60,6 @@ def format_books(books):
         line = f'{each[0]},{each[1]},{each[2]},{each[3]},{availability_bool}\n'
         fLines += line
     return fLines
-
 # Load Books <<<<<<<<<<<<<<<< GOOD (- availability?)
 def load_books(filename):
     books = []
@@ -195,7 +194,6 @@ def borrow_book(fileName, books):
     print("No book found with that ISBN.")
 
 
-
 #Return book 
 def return_book(books):
     '''
@@ -241,7 +239,7 @@ def menu(books, file_input):
                 else:
                     print("No books found matching the search criteria.")
             case '2': 
-                borrow_book(books)
+                borrow_book(file_input, books)
             case '3':
                 # Return a book
                 print('Return a book -- Goes here')
