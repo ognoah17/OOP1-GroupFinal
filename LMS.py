@@ -55,9 +55,12 @@ def format_books(books):
     '''
     fLines = ''
     for each in books:
-        line = f'{each[0]},{each[1]},{each[2]},{each[3]},{each[4]}\n'
+        # Convert availability status to boolean
+        availability_bool = "True" if each[4] == "True" else "False"
+        line = f'{each[0]},{each[1]},{each[2]},{each[3]},{availability_bool}\n'
         fLines += line
     return fLines
+
 # Load Books <<<<<<<<<<<<<<<< GOOD (- availability?)
 def load_books(filename):
     books = []
@@ -80,11 +83,11 @@ def print_single(books):
         return print(books)
 # Display Catalog   -------------------------------------> GOOD
 def print_books(books):
-    print("Catalog of Books:")
     print("=" * 50)
     print("{:<15} {:<30} {:<20} {:<15} {:<10}".format("ISBN", "Title", "Author", "Genre", "Availability"))
     for book in books:
         print("{:<15} {:<30} {:<20} {:<15} {:<10}".format(book['isbn'], book['title'], book['author'], book['genre'], book['availability']))
+#Add book ------------------------------------------------> GOOD
 def add_book(fileName, book_list):
     print('--Add a Book--')
     isbn = input('Enter the 13-digit ISBN (format 999-9999999999): ')
@@ -123,7 +126,7 @@ def add_book(fileName, book_list):
         file.write(new_book_entry)
     
     print(f'\'{title}\' with ISBN {isbn} successfully added.')
-#To search about books
+#To search about books -----------------------------------> Functional but output needs formatting
 def search_books(search_string, books):
     '''
     Searches for books based on the search string provided by the user.
@@ -146,21 +149,53 @@ def search_books(search_string, books):
             search_result.append(book)
 
     return search_result
+
 #To borrow a book
-def borrow_book(books):
+def borrow_book(fileName, books):
     '''
     Allow user to borrow the book
     '''
-    isbn= input("Enter the 13-digit ISBN (format 999-99999999):")
-    index = find_book_by_isbn(books,isbn)
-    if index is not None:
-        if books[index][4] =="Available":
-            books[index][4] ="Borrowed"
-            print(f" '{books[index][1]}' with ISBN {books[index][0]} successfully borrowed.")
-        else:
-            print(f" '{books[index][1]}' with ISBN {books[index][0]} is not currently available.")
-    else:
-        print("No book found with that ISBN.")
+    isbn = input("Enter the 13-digit ISBN (format 999-99999999): ")
+    
+    # Check if the book with the entered ISBN exists in the list
+    for book in books:
+        if book['isbn'] == isbn:
+            # Convert availability to boolean
+            availability_bool = bool(book['availability'])
+            
+            # Check if the book is available for borrowing
+            if availability_bool:
+                # Mark the book as borrowed
+                book['availability'] = "False"
+                
+                # Print success message
+                print(f"'{book['title']}' with ISBN {book['isbn']} successfully borrowed.")
+                
+                # Read the content of the file into memory
+                with open(fileName, 'r') as f:
+                    lines = f.readlines()
+                
+                # Modify the availability status in memory
+                for i, line in enumerate(lines):
+                    if isbn in line:
+                        parts = line.strip().split(',')
+                        parts[-1] = "False"  # Change availability to False
+                        lines[i] = ','.join(parts) + '\n'
+                        break
+                
+                # Rewrite the entire file with the modified availability status
+                with open(fileName, 'w') as f:
+                    f.writelines(lines)
+                
+                return
+            else:
+                print(f"'{book['title']}' with ISBN {book['isbn']} is not currently available.")
+                return
+    
+    print("No book found with that ISBN.")
+
+
+
 #Return book 
 def return_book(books):
     '''
@@ -196,15 +231,17 @@ def menu(books, file_input):
     while menu_loop == True:
         choice = print_menu()
 
-            # Main Menu
+                    # Main Menu
         match choice:
             case '1':
                 search_term = input("Enter the search term: ")
                 result = search_books(search_term, books)
-                print_books(result) 
+                if result:
+                    print_books(result)
+                else:
+                    print("No books found matching the search criteria.")
             case '2': 
-                # Borrow a book
-                print('Borrow a book -- Goes here')
+                borrow_book(books)
             case '3':
                 # Return a book
                 print('Return a book -- Goes here')
