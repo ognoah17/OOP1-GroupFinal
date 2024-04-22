@@ -56,9 +56,18 @@ def format_books(books):
     Formats book data
     '''
     fLines = ''
-    for each in books:
-        line = f'{each[0]},{each[1]},{each[2]},{each[3]},{each[4]}\n'
+    index = 0
+    while index < len(books):
+        current_book = books[index]
+        #for each in current_book:
+        isbn = current_book.get_isbn()
+        title = current_book.get_title()
+        author = current_book.get_author()
+        genre = current_book.get_genre()
+        available = current_book.get_availability()
+        line = f'{isbn},{title},{author},{genre},{available}\n'
         fLines += line
+        index += 1
     return fLines
 
 # Load Books <<<<<<<<<<<<<<<< GOOD (- availability?)
@@ -111,7 +120,6 @@ def add_book(fileName, books):
     Add's a book to the catalog
     '''
     new_book = []
-    attributes = []
     isbn = input('Enter the 13-digit ISBN (format 999-9999999999): ')
     title = input('Enter title: ')
     author = input('Enter author name: ')
@@ -120,34 +128,34 @@ def add_book(fileName, books):
         genre = input('Enter genre: ')
         match genre:
             case 'Romance':
-                genre = 1
+                genre = 0
                 g_valid = True
             case 'Mystery':
-                genre = 2
+                genre = 1
                 g_valid = True
             case 'Science Fiction':
-                genre = 3
+                genre = 2
                 g_valid = True
             case 'Thriller':
-                genre = 4
+                genre = 3
                 g_valid = True
             case 'Young Adult':
-                genre = 5
+                genre = 4
                 g_valid = True
             case 'Children\'s Fiction':
-                genre = 6
+                genre = 5
                 g_valid = True
             case 'Self-help':
-                genre = 7
+                genre = 6
                 g_valid = True
             case 'Fantasy':
-                genre = 8
+                genre = 7
                 g_valid = True
             case 'Historical Fiction':
-                genre = 9
+                genre = 8
                 g_valid = True
             case 'Poetry':
-                genre = 10
+                genre = 9
                 g_valid = True
             case _:
                 print('Invalid genre. Choices are: Romance, Mystery, Science Fiction, Thriller,'
@@ -159,6 +167,8 @@ def add_book(fileName, books):
     print(f'{title} with ISBN {isbn} successfully added')
     return books
 
+    # Remove Book
+#def remove_book()
     
 
 ##### 
@@ -263,8 +273,8 @@ def menu(books, file_input):
                 return_book(books)
             case '0':
                 # Exit the system
-                #format = format_books(books)
-                #exit_system(file_input, format)
+                format = format_books(books)
+                exit_system(file_input, format)
                 break
 
             # Librarian Menu
@@ -296,8 +306,8 @@ def menu(books, file_input):
                             print_books(books)
                         case '0':
                             # Exit the system
-                            #format = format_books(books)
-                            #exit_system(file_input, format)
+                            format = format_books(books)
+                            exit_system(file_input, format)
                             menu_loop = False
                             break
                         case '':

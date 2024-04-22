@@ -41,6 +41,10 @@ class Book:
     def get_author(self):
         return self.__author
     
+        # Get Genre
+    def get_genre(self):
+        return self.__g_code
+    
         # Get Genre Name
     def get_genre_name(self):
         GENRE_LIST = ['Romance', 'Mystery', 'Science Fiction', 'Thriller', 'Young Adult', 'Children\'s Fiction',
@@ -74,6 +78,15 @@ class Book:
         # Set Genre
     def set_genre(self, g_code):
         self.__g_code = g_code
+
+        # Set Availability
+    def set_availability(self):
+        if self.__available == True:
+            check = 'Available'
+            return check
+        else:
+            check = 'Borrowed'
+            return check
 
     ## Display
         # STR
