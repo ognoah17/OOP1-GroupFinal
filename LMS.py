@@ -25,7 +25,6 @@ def print_menu():
     print(f'1. Search for books \n2. Borrow a book \n3. Return a book \n0. Exit the system')
     userInput = input('Enter you selection: ')
     return userInput
-    
 # Print Librarian Menu  -------------------------------------> GOOD
 def print_libMenu():
     '''
@@ -38,7 +37,6 @@ def print_libMenu():
     print(f'1. Search for books \n2. Borrow a book \n3. Return a book \n4. Add a book \n5. Remove a book \n6. Print catalog \n0. Exit the system')
     userInput = input('Enter you selection: ')
     return userInput
-
 # Exit System           ------------------------------------> GOOD
 def exit_system(fileName, fLines):
     '''
@@ -49,7 +47,6 @@ def exit_system(fileName, fLines):
     with open(fileName,'w') as file:
         file.write(fLines)
     print(f'-- Exit the system -- \nBook catalog has been saved. \nGood Bye!')
-
 # Format Books ----------------------- << Testing Required >>
 def format_books(books):
     '''
@@ -61,7 +58,6 @@ def format_books(books):
         line = f'{each[0]},{each[1]},{each[2]},{each[3]},{each[4]}\n'
         fLines += line
     return fLines
-
 # Load Books <<<<<<<<<<<<<<<< GOOD (- availability?)
 def load_books(filename):
     books = []
@@ -76,31 +72,19 @@ def load_books(filename):
                 isbn, title, author, genre, availability = parts
                 books.append({'isbn': isbn.strip(), 'title': title.strip(), 'author': author.strip(), 'genre': genre.strip(), 'availability': availability.strip()})
     return books
-
-
 # Display Book      -------------------------------------> GOOD
 def print_single(books):
     if books == None:
         pass
     else:
         return print(books)
-
 # Display Catalog   -------------------------------------> GOOD
 def print_books(books):
-    '''
-    Print Book Catalog
-    '''
     print("Catalog of Books:")
     print("=" * 50)
     print("{:<15} {:<30} {:<20} {:<15} {:<10}".format("ISBN", "Title", "Author", "Genre", "Availability"))
     for book in books:
         print("{:<15} {:<30} {:<20} {:<15} {:<10}".format(book['isbn'], book['title'], book['author'], book['genre'], book['availability']))
-
-
-##### 
-'''
-    << - Noah's Code - >>
-'''
 def add_book(fileName, book_list):
     print('--Add a Book--')
     isbn = input('Enter the 13-digit ISBN (format 999-9999999999): ')
@@ -134,18 +118,11 @@ def add_book(fileName, book_list):
     book_list.append(new_book)
     
     # Append the new book entry to the file
-    new_book_entry = f"{isbn},{title},{author},{genre_code},{availability}\n"
+    new_book_entry = f"{isbn},{title},{author},{genre},{availability}\n"
     with open(fileName, 'a') as file:
         file.write(new_book_entry)
     
     print(f'\'{title}\' with ISBN {isbn} successfully added.')
-
-#####
-
-##### 
-'''
-    << - Rubal's Code - >>
-'''
 #To search about books
 def search_books(search_string, books):
     '''
@@ -169,11 +146,6 @@ def search_books(search_string, books):
             search_result.append(book)
 
     return search_result
-
-
-
-
-
 #To borrow a book
 def borrow_book(books):
     '''
@@ -189,7 +161,6 @@ def borrow_book(books):
             print(f" '{books[index][1]}' with ISBN {books[index][0]} is not currently available.")
     else:
         print("No book found with that ISBN.")
-
 #Return book 
 def return_book(books):
     '''
@@ -205,7 +176,6 @@ def return_book(books):
             print(f"'{books[index][1]}' with ISBN {books[index][0]} is not currently borrowed.")
     else:
         print("No book found with that ISBN.")
-
 #Find book bt ISBN
 def find_book_by_isbn(books, isbn):
     '''
@@ -216,8 +186,6 @@ def find_book_by_isbn(books, isbn):
         if book[0] == isbn:
             return index
     return -1
-#####
-
 # Menu
 def menu(books, file_input):
     '''
@@ -276,9 +244,6 @@ def menu(books, file_input):
                             #exit_system(file_input, format)
                             menu_loop = False
                             break
-
-
-
 # re Enter File
 def reEnterFile():
     '''
@@ -290,7 +255,6 @@ def reEnterFile():
             books = []
             books = load_books(file_input)
             menu(books, file_input)
-
 # Main
 def main():
     '''
