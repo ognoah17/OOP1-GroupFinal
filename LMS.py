@@ -209,8 +209,8 @@ def search_books(books, search):
             search_match.append(current_book)
         if search.lower() in (current_book.get_isbn().lower()):
             search_match.append(current_book)
-        #if search.lower() in (current_book.get_genre().lower()):
-            #search_match.append(current_book)
+        if search.lower() in (current_book.get_genre_name().lower()):
+            search_match.append(current_book)
         index += 1
     print_books(search_match)
 
