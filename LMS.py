@@ -156,25 +156,21 @@ def remove_book(fileName, book_list):
     isbn = input('Enter the 13-digit ISBN of the book to remove (format 999-9999999999): ')
     
     # Check if the book with the entered ISBN exists in the list
-    found = False
     for book in book_list:
-        if book['isbn'] == isbn:
-            title = book['title']
+        if book.isbn == isbn:
+            title = book.title
             book_list.remove(book)
-            found = True
-            break
+            
+            # Rewrite the entire file without the removed book entry
+            with open(fileName, 'w') as file:
+                for existing_book in book_list:
+                    book_entry = f"{existing_book.isbn},{existing_book.title},{existing_book.author},{existing_book.genre},{existing_book.availability}\n"
+                    file.write(book_entry)
+            
+            print(f'\'{title}\' with ISBN {isbn} successfully removed.')
+            return
     
-    if found:
-        # Rewrite the entire file without the removed book entry
-        with open(fileName, 'w') as file:
-            for existing_book in book_list:
-                book_entry = f"{existing_book['isbn']},{existing_book['title']},{existing_book['author']},{existing_book['genre']},{existing_book['availability']}\n"
-                file.write(book_entry)
-
-        print(f'\'{title}\' with ISBN {isbn} successfully removed.')
-    else:
-        print("No book found with that ISBN.")
-
+    print("No book found with that ISBN.")
 
 
 
@@ -303,10 +299,14 @@ def menu(books, file_input):
     '''
     print('Book catalog has been loaded.')
     global menu_loop
-    while menu_loop == True:
+    while menu_loop:
         choice = print_menu()
-
-                    # Main Menu
+        
+        # Main Menu
+        while choice not in {'0', '1', '2', '3', '2130'}:
+            print("Invalid choice. Please enter a valid option.")
+            choice = print_menu()
+        
         match choice:
             case '1':
                 search_term = input("Enter the search term: ")
@@ -321,14 +321,17 @@ def menu(books, file_input):
                 return_book(file_input, books)
             case '0':
                 # Exit the system
-                #format = format_books(books)
-                #exit_system(file_input, format)
+                # format = format_books(books)
+                # exit_system(file_input, format)
                 break
-
-            # Librarian Menu
             case '2130':
+                # Librarian Menu
                 while True:
                     choice = print_libMenu()
+                    while choice not in {'0', '1', '2', '3', '4', '5', '6'}:
+                        print("Invalid input.")
+                        choice = print_libMenu()
+                    
                     match choice:
                         case '1':
                             search_term = input("Enter the search term: ")
@@ -353,6 +356,7 @@ def menu(books, file_input):
                             #exit_system(file_input, format)
                             menu_loop = False
                             break
+
 # re Enter File
 def reEnterFile():
     '''
