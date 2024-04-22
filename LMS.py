@@ -233,7 +233,7 @@ def borrow_book(books):
                 break
             else:
                 print(f"'{current_book.get_title()}' with ISBN {current_book.get_isbn()} is not currently available.")
-                found == True
+                found = True
                 break
         else:
             index += 1
