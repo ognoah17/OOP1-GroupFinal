@@ -9,7 +9,7 @@
 #
 
 import os
-from book import Book
+import book
 
 
 # Print Menu
@@ -77,7 +77,6 @@ def load_books(fileName):
     Converts lines to list
     Returns List
     '''
-    books = []
     eachBook = []
     format = []
     with open(fileName, 'r') as file:
@@ -85,10 +84,8 @@ def load_books(fileName):
             isbn, title, author, genre, availability = line.strip().split(',')
             format.append([isbn, title, author, genre, availability])
         for each in format:
-            eachBook.append(Book(each[0],each[1],each[2],each[3],each[4]))
-        for each in eachBook:
-            books.append(each)
-    return books
+            eachBook.append(book.Book(each[0],each[1],each[2],each[3],each[4]))
+    return eachBook
 
 # Display Book
 def print_single(books):
@@ -160,7 +157,7 @@ def add_book(books):
                 print('Invalid genre. Choices are: Romance, Mystery, Science Fiction, Thriller,'
                         ' Young Adult, Children\'s Fiction, Self-help, Fantasy, Historical Fiction, Poetry')
     available = True
-    new_book.append(Book(isbn, title, author, genre, available))
+    new_book.append(book.Book(isbn, title, author, genre, available))
     for each in new_book:
         books.append(each)
     print(f'{title} with ISBN {isbn} successfully added')
@@ -223,10 +220,11 @@ def borrow_book(books):
     '''
     search = input(f'-- Borrow a book -- \nEnter the 13-digit ISBN (format 999-9999999999): ')
     index = 0
+    found = False
     while index < len(books):
         current_book = books[index]
         if search == current_book.get_isbn():
-            if current_book.get_availability() == True:
+            if current_book.get_availability() == 'Available':
                 current_book.borrow_it()
                 print(f"'{current_book.get_title()}' with ISBN {current_book.get_isbn()} successfully borrowed.")
                 found = True
@@ -250,20 +248,24 @@ def return_book(books):
     '''
     search = input(f'-- Return a book -- \nEnter the 13-digit ISBN (format 999-9999999999): ')
     index = 0
+    found = False
     while index < len(books):
         current_book = books[index]
         if search == current_book.get_isbn():
-            if current_book.get_availability() == False:
+            if current_book.get_availability() == 'Borrowed':
                 current_book.return_it()
                 print(f"'{current_book.get_title()}' with ISBN {current_book.get_isbn()} successfully returned.")
+                found = True
                 break
             else:
                 print(f"'{current_book.get_title()}' with ISBN {current_book.get_isbn()} is not currently borrowed.")
+                found = True
                 break
         else:
             index += 1
-    if index == len(books):
-        print('No book found with that ISBN')
+    if found == False:
+        if index == len(books):
+            print('No book found with that ISBN')
 ##### Borrow and Return do NOT use find_by_isbn function (function not made)
 #####
 

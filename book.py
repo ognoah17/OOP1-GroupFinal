@@ -55,12 +55,10 @@ class Book:
 
         # Get Availability
     def get_availability(self):
-        if self.__available == True:
-            check = 'Available'
-            return check
+        if self.__available == 'True':
+            return 'Available'
         else:
-            check = 'Borrowed'
-            return check
+            return 'Borrowed'
         
     ## Set
         # Set ISBN
