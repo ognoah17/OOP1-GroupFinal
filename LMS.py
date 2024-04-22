@@ -154,7 +154,6 @@ def search_books(search_string, books):
             search_result.append(book)
 
     return search_result
-
 #To borrow a book
 def borrow_book(fileName, books):
     '''
@@ -198,8 +197,6 @@ def borrow_book(fileName, books):
                 return
     
     print("No book found with that ISBN.")
-
-
 #Return book 
 def return_book(fileName, books):
     '''
@@ -244,10 +241,6 @@ def return_book(fileName, books):
                 return
     
     print("No book found with that ISBN.")
-
-
-
-
 def find_book_by_isbn(books, isbn):
     '''
     Finds book by ISBN
