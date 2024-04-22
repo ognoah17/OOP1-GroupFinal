@@ -23,8 +23,16 @@ def print_menu():
     print('Reader\'s Guild Library - Main Menu')
     print('='*34)
     print(f'1. Search for books \n2. Borrow a book \n3. Return a book \n0. Exit the system')
-    userInput = input('Enter you selection: ')
-    return userInput
+
+    # Prompt the user for input and verify it
+    while True:
+        userInput = input('Enter your selection: ')
+        if userInput.isdigit() and userInput in ['0', '1', '2', '3','4','5','6','2130']:
+            # Input is a digit and within valid options
+            return userInput
+        else:
+            print("Invalid input.")
+
 # Print Librarian Menu  -------------------------------------> GOOD
 def print_libMenu():
     '''
@@ -99,7 +107,7 @@ def add_book(fileName, book_list):
     title = input('Enter title: ')
     author = input('Enter author name: ')
     
-    # Display available genres with codes
+    # Display available genres
     print("Enter genres:")
     genre_list = [
         'Romance', 'Mystery', 'Science Fiction', 'Thriller', 
@@ -109,18 +117,18 @@ def add_book(fileName, book_list):
     for i, genre in enumerate(genre_list):
         print(f"{i}: {genre}")
     
-    # Prompt the user to select a genre code
-    genre_code = int(input('Enter genre code (0-9): '))
-    while genre_code not in range(10):
-        print('Invalid genre. Choice are as above:')
-        genre_code = int(input('Enter genre code (0-9): '))
+    # Prompt the user to select a genre
+    genre_input = input('Enter genre: ').capitalize()
+    while genre_input not in genre_list:
+        print('Invalid genre. Choices are as above:')
+        genre_input = input('Enter genre: ').capitalize()
     
-    genre = genre_list[genre_code]
+    genre = genre_input
     
-    availability =  'True'
+    availability = 'True'
     
     # Create a Book object
-    new_book = Book(isbn, title, author, genre_code, availability)  # Use genre_code instead of genre
+    new_book = Book(isbn, title, author, genre, availability)
     
     # Append the new book to the book list
     book_list.append(new_book)
@@ -131,6 +139,7 @@ def add_book(fileName, book_list):
         file.write(new_book_entry)
     
     print(f'\'{title}\' with ISBN {isbn} successfully added.')
+
 #To search about books -----------------------------------> Functional but output needs formatting
 def search_books(search_string, books):
     '''
