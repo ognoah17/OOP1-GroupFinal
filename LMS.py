@@ -229,14 +229,17 @@ def borrow_book(books):
             if current_book.get_availability() == True:
                 current_book.borrow_it()
                 print(f"'{current_book.get_title()}' with ISBN {current_book.get_isbn()} successfully borrowed.")
+                found = True
                 break
             else:
                 print(f"'{current_book.get_title()}' with ISBN {current_book.get_isbn()} is not currently available.")
+                found == True
                 break
         else:
             index += 1
-    if index == len(books):
-        print('No book found with that ISBN')
+    if found == False:
+        if index == len(books):
+            print('No book found with that ISBN')
 
 # Return Book
 def return_book(books):
