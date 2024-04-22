@@ -12,7 +12,7 @@ import os
 from book import Book
 
 
-# Print Menu        ------------------------------------------> GOOD
+# Print Menu
 def print_menu():
     '''
     Main Menu Screen
@@ -25,7 +25,7 @@ def print_menu():
     userInput = input('Enter you selection: ')
     return userInput
     
-# Print Librarian Menu  -------------------------------------> GOOD
+# Print Librarian Menu
 def print_libMenu():
     '''
     Librarian Menu Screen
@@ -38,7 +38,7 @@ def print_libMenu():
     userInput = input('Enter you selection: ')
     return userInput
 
-# Exit System           ------------------------------------> GOOD
+# Exit System
 def exit_system(fileName, fLines):
     '''
     Saves changes to the catalog
@@ -49,7 +49,7 @@ def exit_system(fileName, fLines):
         file.write(fLines)
     print(f'-- Exit the system -- \nBook catalog has been saved. \nGood Bye!')
 
-# Format Books ----------------------- << Testing Required >>
+# Format Books
 def format_books(books):
     '''
     Gets list of books
@@ -70,7 +70,7 @@ def format_books(books):
         index += 1
     return fLines
 
-# Load Books <<<<<<<<<<<<<<<< GOOD (- availability?)
+# Load Books
 def load_books(fileName):
     '''
     Takes and reads file name
@@ -90,14 +90,14 @@ def load_books(fileName):
             books.append(each)
     return books
 
-# Display Book      -------------------------------------> GOOD
+# Display Book
 def print_single(books):
     if books == None:
         pass
     else:
         return print(books)
 
-# Display Catalog   -------------------------------------> GOOD
+# Display Catalog
 def print_books(books):
     '''
     --Print Book Catalog--
@@ -112,10 +112,9 @@ def print_books(books):
 '''
     << - Noah's Code - >>
 '''
-#####
 ## - Should be Noah's
     # Add Book
-def add_book(fileName, books):
+def add_book(books):
     '''
     Add's a book to the catalog
     '''
@@ -168,8 +167,25 @@ def add_book(fileName, books):
     return books
 
     # Remove Book
-#def remove_book()
-    
+def remove_book(books):
+    '''
+    Search for isbn
+    If found, remove from books
+    '''
+    search = input('Enter the 13-digit ISBN (format 999-9999999999): ')
+    index = 0
+    while index < len(books):
+        current_book = books[index]
+        if search in current_book.get_isbn():
+            books.pop(index)
+            print(f"'{current_book.get_title()}' with ISBN {current_book.get_isbn()} succesfully removed.")
+            found = True
+        else:
+            index += 1
+    if found == False:
+        if index == len(books):
+            print('No book found with that ISBN.')
+#####
 
 ##### 
 '''
@@ -296,10 +312,11 @@ def menu(books, file_input):
                         case '4':
                             # Add a book
                             print('-- Add a book --')
-                            add_book(file_input, books)
+                            add_book(books)
                         case '5':
                             # Remove a book
-                            print('Remove a book -- goes here')
+                            print('-- Remove a book --')
+                            remove_book(books)
                         case '6':
                             # Print Catalog
                             load_books(file_input)
