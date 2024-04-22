@@ -18,8 +18,8 @@ class Book:
     ## Borrow/Return
         # Borrow
     def borrow_it(self):
-        self.__available = False
-        if self.__available == False:
+        self.__available = 'Borrowed'
+        if self.__available == 'Borrowed':
             return self.__available
 
         # Return
