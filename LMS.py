@@ -109,9 +109,9 @@ def add_book(fileName, book_list):
     
     # Display available genres
     genre_list = [
-        'Romance', 'Mystery', 'Science Fiction', 'Thriller', 
+        'Romance', 'Mystery','Thriller', 'Science Fiction',  
         'Young Adult', "Children's Fiction", 'Self-help', 
-        'Fant1asy', 'Historical Fiction', 'Poetry'
+        'Fantasy', 'Historical Fiction', 'Poetry'
     ]
     for i, genre in enumerate(genre_list):
         print(f"{i}: {genre}")
@@ -171,9 +171,6 @@ def remove_book(fileName, book_list):
             return
     
     print("No book found with that ISBN.")
-
-
-
 
 #To search about books -----------------------------------> Functional but output needs formatting
 def search_books(search_string, books):
