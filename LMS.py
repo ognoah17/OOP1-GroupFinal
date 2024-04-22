@@ -48,18 +48,24 @@ def exit_system(fileName, fLines):
         file.write(fLines)
     print(f'-- Exit the system -- \nBook catalog has been saved. \nGood Bye!')
 # Format Books ----------------------- << Testing Required >>
-def format_books(books):
+def format_books(fileName, books):
     '''
     Gets list of books
     Formats book data
     '''
-    fLines = ''
-    for each in books:
-        # Convert availability status to boolean
-        availability_bool = "True" if each[4] == "True" else "False"
-        line = f'{each[0]},{each[1]},{each[2]},{each[3]},{availability_bool}\n'
-        fLines += line
-    return fLines
+    books = []
+    with open(fileName, 'r') as file:
+        for line in file:
+            parts = line.strip().split(',')
+            availability = parts[-1].strip()  # Extract the last column
+            book = {
+                'title': parts[1],  # Assuming index 1 is for title
+                'author': parts[2],  # Assuming index 2 is for author
+                'isbn': parts[0],  # Assuming index 0 is for ISBN
+                'availability': availability  # Store the availability as string
+            }
+            books.append(book)
+    return books
 # Load Books <<<<<<<<<<<<<<<< GOOD (- availability?)
 def load_books(filename):
     books = []
@@ -195,21 +201,53 @@ def borrow_book(fileName, books):
 
 
 #Return book 
-def return_book(books):
+def return_book(fileName, books):
     '''
-    Allow user to Return book
+    Allow user to return a borrowed book
     '''
-    isbn= input("Enter the 13-digit ISBN(format 999-99999999):")
-    index= find_book_by_isbn(books,isbn)
-    if index != -1:
-        if books[index][4]== "Borrowed":
-            books[index][4] ="Available"
-            print(f"'{books[index][1]}' with ISBN {books[index][0]} successfully returned.")
-        else:
-            print(f"'{books[index][1]}' with ISBN {books[index][0]} is not currently borrowed.")
-    else:
-        print("No book found with that ISBN.")
-#Find book bt ISBN
+    isbn = input("Enter the 13-digit ISBN (format 999-99999999) of the book to return: ")
+    
+    # Check if the book with the entered ISBN exists in the list
+    for book in books:
+        if book['isbn'] == isbn:
+            # Convert availability to boolean
+            availability = book['availability']
+            print(availability)
+            
+            # Check if the book is already borrowed
+            if availability == 'False':
+                # Mark the book as available
+                book['availability'] = "True"
+                
+                # Print success message
+                print(f"'{book['title']}' with ISBN {book['isbn']} successfully returned.")
+                
+                # Read the content of the file into memory
+                with open(fileName, 'r') as f:
+                    lines = f.readlines()
+                
+                # Modify the availability status in memory
+                for i, line in enumerate(lines):
+                    if isbn in line:
+                        parts = line.strip().split(',')
+                        parts[-1] = "True"  # Change availability to True
+                        lines[i] = ','.join(parts) + '\n'
+                        break
+                
+                # Rewrite the entire file with the modified availability status
+                with open(fileName, 'w') as f:
+                    f.writelines(lines)
+                
+                return
+            else:
+                print(f"'{book['title']}' with ISBN {book['isbn']} is not currently borrowed.")
+                return
+    
+    print("No book found with that ISBN.")
+
+
+
+
 def find_book_by_isbn(books, isbn):
     '''
     Finds book by ISBN
@@ -241,8 +279,7 @@ def menu(books, file_input):
             case '2': 
                 borrow_book(file_input, books)
             case '3':
-                # Return a book
-                print('Return a book -- Goes here')
+                return_book(file_input, books)
             case '0':
                 # Exit the system
                 #format = format_books(books)
@@ -259,8 +296,7 @@ def menu(books, file_input):
                             result = search_books(search_term, books)
                             print_books(result) 
                         case '2': 
-                            # Borrow a book
-                            print('Borrow a book -- Goes here(same as other)')
+                            borrow_book(file_input, books)
                         case '3':
                             # Return a book
                             print('Return a book -- Goes here(same as other)')
