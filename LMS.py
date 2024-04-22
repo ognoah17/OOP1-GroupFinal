@@ -88,13 +88,14 @@ def print_single(books):
 # Display Catalog   -------------------------------------> GOOD
 def print_books(books):
     '''
-    --Print Book Catalog--
+    Print Book Catalog
     '''
     print("Catalog of Books:")
     print("=" * 50)
     print("{:<15} {:<30} {:<20} {:<15} {:<10}".format("ISBN", "Title", "Author", "Genre", "Availability"))
     for book in books:
-        print_single(book)
+        print("{:<15} {:<30} {:<20} {:<15} {:<10}".format(book['isbn'], book['title'], book['author'], book['genre'], book['availability']))
+
 
 ##### 
 '''
