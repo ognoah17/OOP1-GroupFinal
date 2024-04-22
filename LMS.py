@@ -75,6 +75,7 @@ def format_books(fileName, books):
             books.append(book)
     return books
 # Load Books <<<<<<<<<<<<<<<< GOOD (- availability?)
+
 def load_books(filename):
     books = []
     with open(filename, 'r') as file:
@@ -86,8 +87,11 @@ def load_books(filename):
                     print(f"Error on line {line_number}: expected 5 values, got {len(parts)}. Line content: '{line}'")
                     continue  # Skip this line
                 isbn, title, author, genre, availability = parts
-                books.append({'isbn': isbn.strip(), 'title': title.strip(), 'author': author.strip(), 'genre': genre.strip(), 'availability': availability.strip()})
+                # Create a Book instance and append to the list
+                book = Book(isbn.strip(), title.strip(), author.strip(), genre.strip(), availability.strip())
+                books.append(book)
     return books
+
 # Display Book      -------------------------------------> GOOD
 def print_single(books):
     if books == None:
@@ -99,7 +103,7 @@ def print_books(books):
     print("=" * 50)
     print("{:<15} {:<30} {:<20} {:<15} {:<10}".format("ISBN", "Title", "Author", "Genre", "Availability"))
     for book in books:
-        print("{:<15} {:<30} {:<20} {:<15} {:<10}".format(book['isbn'], book['title'], book['author'], book['genre'], book['availability']))
+        print("{:<15} {:<30} {:<20} {:<15} {:<10}".format(book.isbn, book.title, book.author, book.genre, book.availability))
 #Add book ------------------------------------------------> GOOD
 def add_book(fileName, book_list):
     print('--Add a Book--')
@@ -153,24 +157,25 @@ def load_books_from_file(file_name):
 
 def remove_book(fileName, book_list):
     print('--Remove a Book--')
-    isbn = input('Enter the 13-digit ISBN of the book to remove (format 999-9999999999): ')
+    isbn = input('Enter the 13-digit ISBN of the book you want to remove: ')
     
-    # Check if the book with the entered ISBN exists in the list
+    # Search for the book by ISBN
+    found = False
     for book in book_list:
         if book.isbn == isbn:
-            title = book.title
+            found = True
             book_list.remove(book)
-            
-            # Rewrite the entire file without the removed book entry
-            with open(fileName, 'w') as file:
-                for existing_book in book_list:
-                    book_entry = f"{existing_book.isbn},{existing_book.title},{existing_book.author},{existing_book.genre},{existing_book.availability}\n"
-                    file.write(book_entry)
-            
-            print(f'\'{title}\' with ISBN {isbn} successfully removed.')
-            return
+            break
     
-    print("No book found with that ISBN.")
+    if found:
+        print(f"Book with ISBN {isbn} found and removed.")
+        # Rewrite the file without the removed book
+        with open(fileName, 'w') as file:
+            for book in book_list:
+                file.write(f"{book.isbn},{book.title},{book.author},{book.genre},{book.availability}\n")
+    else:
+        print(f"No book found with ISBN {isbn}.")
+
 
 #To search about books -----------------------------------> Functional but output needs formatting
 def search_books(search_string, books):
@@ -317,9 +322,7 @@ def menu(books, file_input):
             case '3':
                 return_book(file_input, books)
             case '0':
-                # Exit the system
-                # format = format_books(books)
-                # exit_system(file_input, format)
+                exit
                 break
             case '2130':
                 # Librarian Menu
@@ -337,8 +340,7 @@ def menu(books, file_input):
                         case '2': 
                             borrow_book(file_input, books)
                         case '3':
-                            # Return a book
-                            print('Return a book -- Goes here(same as other)')
+                            return_book(file_input, books)
                         case '4':
                             add_book(file_input, books)
                         case '5':
