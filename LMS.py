@@ -111,7 +111,7 @@ def add_book(fileName, book_list):
     genre_list = [
         'Romance', 'Mystery', 'Science Fiction', 'Thriller', 
         'Young Adult', "Children's Fiction", 'Self-help', 
-        'Fantasy', 'Historical Fiction', 'Poetry'
+        'Fant1asy', 'Historical Fiction', 'Poetry'
     ]
     for i, genre in enumerate(genre_list):
         print(f"{i}: {genre}")
@@ -172,13 +172,11 @@ def borrow_book(fileName, books):
     # Check if the book with the entered ISBN exists in the list
     for book in books:
         if book['isbn'] == isbn:
-            # Convert availability to boolean
-            availability_bool = bool(book['availability'])
-            
+            availability = str(book['availability'])            
             # Check if the book is available for borrowing
-            if availability_bool:
+            if availability == "Available":
                 # Mark the book as borrowed
-                book['availability'] = "False"
+                book['availability'] = "Borrowed"
                 
                 # Print success message
                 print(f"'{book['title']}' with ISBN {book['isbn']} successfully borrowed.")
@@ -191,7 +189,7 @@ def borrow_book(fileName, books):
                 for i, line in enumerate(lines):
                     if isbn in line:
                         parts = line.strip().split(',')
-                        parts[-1] = "False"  # Change availability to False
+                        parts[-1] = "Borrowed"  # Change availability to Borrowed
                         lines[i] = ','.join(parts) + '\n'
                         break
                 
@@ -220,9 +218,9 @@ def return_book(fileName, books):
             print(availability)
             
             # Check if the book is already borrowed
-            if availability == 'False':
+            if availability == 'Borrowed':
                 # Mark the book as available
-                book['availability'] = "True"
+                book['availability'] = "Available"
                 
                 # Print success message
                 print(f"'{book['title']}' with ISBN {book['isbn']} successfully returned.")
