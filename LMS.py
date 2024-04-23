@@ -10,10 +10,10 @@
 #
 
 import os
-from book import Book
+import book
 
 
-# Print Menu        ------------------------------------------> GOOD
+# Print Menu
 def print_menu():
     '''
     Main Menu Screen
@@ -26,7 +26,7 @@ def print_menu():
     userInput = input('Enter you selection: ')
     return userInput
     
-# Print Librarian Menu  -------------------------------------> GOOD
+# Print Librarian Menu
 def print_libMenu():
     '''
     Librarian Menu Screen
@@ -39,7 +39,7 @@ def print_libMenu():
     userInput = input('Enter you selection: ')
     return userInput
 
-# Exit System           ------------------------------------> GOOD
+# Exit System
 def exit_system(fileName, fLines):
     '''
     Saves changes to the catalog
@@ -50,26 +50,37 @@ def exit_system(fileName, fLines):
         file.write(fLines)
     print(f'-- Exit the system -- \nBook catalog has been saved. \nGood Bye!')
 
-# Format Books ----------------------- << Testing Required >>
+# Format Books
 def format_books(books):
     '''
     Gets list of books
     Formats book data
     '''
     fLines = ''
-    for each in books:
-        line = f'{each[0]},{each[1]},{each[2]},{each[3]},{each[4]}\n'
+    index = 0
+    while index < len(books):
+        current_book = books[index]
+        #for each in current_book:
+        isbn = current_book.get_isbn()
+        title = current_book.get_title()
+        author = current_book.get_author()
+        genre = current_book.get_genre()
+        if current_book.get_availability() == 'Available':
+            available = 'True'
+        else:
+            available = 'False'
+        line = f'{isbn},{title},{author},{genre},{available}\n'
         fLines += line
+        index += 1
     return fLines
 
-# Load Books <<<<<<<<<<<<<<<< GOOD (- availability?)
+# Load Books
 def load_books(fileName):
     '''
     Takes and reads file name
     Converts lines to list
     Returns List
     '''
-    books = []
     eachBook = []
     format = []
     with open(fileName, 'r') as file:
@@ -77,19 +88,17 @@ def load_books(fileName):
             isbn, title, author, genre, availability = line.strip().split(',')
             format.append([isbn, title, author, genre, availability])
         for each in format:
-            eachBook.append(Book(each[0],each[1],each[2],each[3],each[4]))
-        for each in eachBook:
-            books.append(each)
-    return books
+            eachBook.append(book.Book(each[0],each[1],each[2],each[3],each[4]))
+    return eachBook
 
-# Display Book      -------------------------------------> GOOD
+# Display Book
 def print_single(books):
     if books == None:
         pass
     else:
         return print(books)
 
-# Display Catalog   -------------------------------------> GOOD
+# Display Catalog
 def print_books(books):
     '''
     --Print Book Catalog--
@@ -104,12 +113,174 @@ def print_books(books):
 '''
     << - Noah's Code - >>
 '''
+## - Should be Noah's
+    # Add Book
+def add_book(books):
+    '''
+    Add's a book to the catalog
+    '''
+    new_book = []
+    isbn = input('Enter the 13-digit ISBN (format 999-9999999999): ')
+    title = input('Enter title: ')
+    author = input('Enter author name: ')
+    g_valid = False
+    while g_valid is False:
+        genre = input('Enter genre: ')
+        match genre:
+            case 'Romance':
+                genre = 0
+                g_valid = True
+            case 'Mystery':
+                genre = 1
+                g_valid = True
+            case 'Science Fiction':
+                genre = 2
+                g_valid = True
+            case 'Thriller':
+                genre = 3
+                g_valid = True
+            case 'Young Adult':
+                genre = 4
+                g_valid = True
+            case 'Children\'s Fiction':
+                genre = 5
+                g_valid = True
+            case 'Self-help':
+                genre = 6
+                g_valid = True
+            case 'Fantasy':
+                genre = 7
+                g_valid = True
+            case 'Historical Fiction':
+                genre = 8
+                g_valid = True
+            case 'Poetry':
+                genre = 9
+                g_valid = True
+            case _:
+                print('Invalid genre. Choices are: Romance, Mystery, Science Fiction, Thriller,'
+                        ' Young Adult, Children\'s Fiction, Self-help, Fantasy, Historical Fiction, Poetry')
+    available = 'Available'
+    new_book.append(book.Book(isbn, title, author, genre, available))
+    for each in new_book:
+        books.append(each)
+    print(f'{title} with ISBN {isbn} successfully added')
+    return books
+
+    # Remove Book
+def remove_book(books):
+    '''
+    Search for isbn
+    If found, remove from books
+    '''
+    search = input('Enter the 13-digit ISBN (format 999-9999999999): ')
+    index = 0
+    found = False
+    while index < len(books):
+        current_book = books[index]
+        if search in current_book.get_isbn():
+            books.pop(index)
+            print(f"'{current_book.get_title()}' with ISBN {current_book.get_isbn()} succesfully removed.")
+            found = True
+        else:
+            index += 1
+    if found == False:
+        if index == len(books):
+            print('No book found with that ISBN.')
 #####
 
 ##### 
 '''
     << - Rubal's Code - >>
 '''
+## - Should be Rubal's
+    # Search Books
+def search_books(books, search):
+    '''
+    Search for book
+    Looks for match in:
+    isbn, title, author, genre
+    '''
+    search_match = []
+    index = 0
+    found = False
+    while index < len(books):
+        current_book = books[index]
+        if search.lower() in current_book.get_title().lower():
+            search_match.append(current_book)
+            found = True
+        if search.lower() in (current_book.get_author().lower()):
+            search_match.append(current_book)
+            found = True
+        if search.lower() in (current_book.get_isbn().lower()):
+            search_match.append(current_book)
+            found = True
+        if search.lower() in (current_book.get_genre_name().lower()):
+            search_match.append(current_book)
+            found = True
+        else:
+            index += 1
+    if found == False:
+        print('No matching books found.')
+    else:
+        print_books(search_match)
+
+# Borrow Book
+def borrow_book(books):
+    '''
+    Takes book list
+    Search for isbn and finds match
+    If available, sets as borrowed
+    '''
+    search = input(f'-- Borrow a book -- \nEnter the 13-digit ISBN (format 999-9999999999): ')
+    index = 0
+    found = False
+    while index < len(books):
+        current_book = books[index]
+        if search == current_book.get_isbn():
+            if current_book.get_availability() == 'Available':
+                current_book.borrow_it()
+                print(f"'{current_book.get_title()}' with ISBN {current_book.get_isbn()} successfully borrowed.")
+                found = True
+                break
+            else:
+                print(f"'{current_book.get_title()}' with ISBN {current_book.get_isbn()} is not currently available.")
+                found = True
+                break
+        else:
+            index += 1
+    if found == False:
+        if index == len(books):
+            print('No book found with that ISBN')
+
+# Return Book
+def return_book(books):
+    '''
+    Takes book list
+    Search for isbn and finds match
+    If borrowed, sets as available
+    '''
+    search = input(f'-- Return a book -- \nEnter the 13-digit ISBN (format 999-9999999999): ')
+    index = 0
+    found = False
+    while index < len(books):
+        current_book = books[index]
+        if search == current_book.get_isbn():
+            if current_book.get_availability() == 'Borrowed':
+                current_book.return_it()
+                print(f"'{current_book.get_title()}' with ISBN {current_book.get_isbn()} successfully returned.")
+                found = True
+                break
+            else:
+                print(f"'{current_book.get_title()}' with ISBN {current_book.get_isbn()} is not currently borrowed.")
+                found = True
+                break
+        else:
+            index += 1
+    if found == False:
+        if index == len(books):
+            print('No book found with that ISBN')
+##### Borrow and Return do NOT use find_by_isbn function (function not made)
 #####
 #To search about books
 def search_books(books, search_str):
@@ -163,8 +334,6 @@ def find_book_by_isbn(books, isbn):
             return index
     return -1
 
-
-
 # Menu
 def menu(books, file_input):
     '''
@@ -179,17 +348,19 @@ def menu(books, file_input):
         match choice:
             case '1':
                 # Search for books
-                print('Search for books -- Goes here')
+                print('-- Search for books --')
+                search = input('Enter search value: ')
+                search_books(books, search)
             case '2': 
                 # Borrow a book
-                print('Borrow a book -- Goes here')
+                borrow_book(books)
             case '3':
                 # Return a book
-                print('Return a book -- Goes here')
+                return_book(books)
             case '0':
                 # Exit the system
-                #format = format_books(books)
-                #exit_system(file_input, format)
+                format = format_books(books)
+                exit_system(file_input, format)
                 break
 
             # Librarian Menu
@@ -199,29 +370,37 @@ def menu(books, file_input):
                     match choice:
                         case '1':
                             # Search for books
-                            print('Search for books -- Goes here(same as other)')
+                            print('-- Search for books --')
+                            search = input('Enter search value: ')
+                            search_books(books, search)
                         case '2': 
                             # Borrow a book
-                            print('Borrow a book -- Goes here(same as other)')
+                            borrow_book(books)
                         case '3':
                             # Return a book
-                            print('Return a book -- Goes here(same as other)')
+                            return_book(books)
                         case '4':
                             # Add a book
-                            print('Add a book -- goes here')
+                            print('-- Add a book --')
+                            add_book(books)
                         case '5':
                             # Remove a book
-                            print('Remove a book -- goes here')
+                            print('-- Remove a book --')
+                            remove_book(books)
                         case '6':
                             # Print Catalog
                             load_books(file_input)
                             print_books(books)
                         case '0':
                             # Exit the system
-                            #format = format_books(books)
-                            #exit_system(file_input, format)
+                            format = format_books(books)
+                            exit_system(file_input, format)
                             menu_loop = False
                             break
+                        case _:
+                            print('Invalid option')
+            case _:
+                print('Invalid option')
 
 
 
