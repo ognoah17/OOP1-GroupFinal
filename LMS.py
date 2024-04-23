@@ -64,7 +64,10 @@ def format_books(books):
         title = current_book.get_title()
         author = current_book.get_author()
         genre = current_book.get_genre()
-        available = current_book.get_availability()
+        if current_book.get_availability() == 'Available':
+            available = 'True'
+        else:
+            available = 'False'
         line = f'{isbn},{title},{author},{genre},{available}\n'
         fLines += line
         index += 1
