@@ -159,8 +159,8 @@ def add_book(books):
             case _:
                 print('Invalid genre. Choices are: Romance, Mystery, Science Fiction, Thriller,'
                         ' Young Adult, Children\'s Fiction, Self-help, Fantasy, Historical Fiction, Poetry')
-    available = 'Available'
-    new_book.append(book.Book(isbn, title, author, genre, available))
+    new_book.append(book.Book(isbn, title, author, genre, 'True'))
+
     for each in new_book:
         books.append(each)
     print(f'{title} with ISBN {isbn} successfully added')
