@@ -205,7 +205,7 @@ def search_books(books, search):
     found = False
     while index < len(books):
         current_book = books[index]
-        if search.lower() in current_book.get_title().lower():
+        if search.lower() in (current_book.get_title().lower()):
             search_match.append(current_book)
             found = True
         if search.lower() in (current_book.get_author().lower()):
@@ -217,8 +217,7 @@ def search_books(books, search):
         if search.lower() in (current_book.get_genre_name().lower()):
             search_match.append(current_book)
             found = True
-        else:
-            index += 1
+        index += 1
     if found == False:
         print('No matching books found.')
     else:
