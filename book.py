@@ -52,13 +52,14 @@ class Book:
         get = int(self.__g_code)
         genre = GENRE_LIST[get]
         return genre
-
+    
         # Get Availability
     def get_availability(self):
-        if self.__available == 'True':
+        if self.__available:
             return 'Available'
         else:
             return 'Borrowed'
+
         
     ## Set
         # Set ISBN

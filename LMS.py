@@ -1,4 +1,3 @@
-#
 # Library Management System
 # Steven, Rubal, Noah
 # April 20, 2024
@@ -21,7 +20,7 @@ def print_menu():
     print() # Empty line for readability
     print('Reader\'s Guild Library - Main Menu')
     print('='*34)
-    print(f'1. Search for books \n2. Borrow a book \n3. Return a book \n0. Exit the system')
+    print(f'1. Search for books \n2. Show all books \n3. Borrow a book \n4. Return a book \n0. Exit the system')
     userInput = input('Enter you selection: ')
     return userInput
     
@@ -34,7 +33,7 @@ def print_libMenu():
     print() # Empty line for readability
     print('Reader\'s Guild Library - Librarian Menu')
     print('='*39)
-    print(f'1. Search for books \n2. Borrow a book \n3. Return a book \n4. Add a book \n5. Remove a book \n6. Print catalog \n0. Exit the system')
+    print(f'1. Search for books \n2. Borrow a book \n3. Return a book \n4. Add a book \n5. Remove a book \n6. Show all books \n7. Print catalog \n0. Exit the system')
     userInput = input('Enter you selection: ')
     return userInput
 
@@ -281,6 +280,29 @@ def return_book(books):
 ##### Borrow and Return do NOT use find_by_isbn function (function not made)
 #####
 
+# Show All Books
+def show_all_books(books):
+    '''
+    Displays all books in the catalog
+    '''
+    print("\n-- All Books in the Catalog --")
+    print("=" * 70)
+    print("{:<15} {:<30} {:<20} {:<15} {:<10}".format("ISBN", "Title", "Author", "Genre", "Availability"))
+    print("=" * 70)
+    if not books:
+        print("No books available in the catalog.")
+    else:
+        for book in books:
+            print("{:<15} {:<30} {:<20} {:<15} {:<10}".format(
+                book.get_isbn(),
+                book.get_title(),
+                book.get_author(),
+                book.get_genre(),
+                "Available" if book.get_availability() == 'Available' else "Borrowed"
+            ))
+    print("=" * 70)
+
+
 # Menu
 def menu(books, file_input):
     '''
@@ -298,10 +320,13 @@ def menu(books, file_input):
                 print('-- Search for books --')
                 search = input('Enter search value: ')
                 search_books(books, search)
-            case '2': 
+            case '2':
+                # Show all books
+                show_all_books(books)
+            case '3': 
                 # Borrow a book
                 borrow_book(books)
-            case '3':
+            case '4':
                 # Return a book
                 return_book(books)
             case '0':
@@ -335,8 +360,10 @@ def menu(books, file_input):
                             print('-- Remove a book --')
                             remove_book(books)
                         case '6':
-                            # Print Catalog
-                            load_books(file_input)
+                            # Show all books
+                            show_all_books(books)
+                        case '7':
+                            # Print catalog
                             print_books(books)
                         case '0':
                             # Exit the system
@@ -379,3 +406,4 @@ def main():
 if __name__ == "__main__":
     menu_loop = True
     main()
+
